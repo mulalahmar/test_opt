@@ -1,3 +1,5 @@
+import numpy as np
+
 # Problem description
 '''
 Max z = 40.x1 + 30.x2  

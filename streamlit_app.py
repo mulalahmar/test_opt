@@ -1,45 +1,37 @@
 import streamlit as st
 
-import openai import OpenAI
-from prompts import parsing_prompt
+from openai import OpenAI
+
 import json
 import os
 
-from scipy.optimize import minimize
-from scipy.optimize import Bounds
-from scipy.optimize import LinearConstraint
-from scipy.optimize import NonlinearConstraint
-from scipy.optimize import BFGS
-from scipy.optimize import milp
+from scipy.optimize import minimize, Bounds, LinearConstraint, NonlinearConstraint, BFGS, milp
 
 import pandas as pd
 import numpy as np
 
-from prompts import (
-    parsing_prompt
-)
 
-from utils import (
+import data
+import prompts
+from optimize import (
     objective_function,
     constraint1,
     constraint2,
-    generate_constraints,
     generate_var_bounds,
+    generate_constraints,
     initial_var_values,
-    optimize_problem
+    optimize_problem        
 )
 
-import data
+#openai.api_key = os.getenv("OPENAI_API_KEY")
 
-import numpy as np
-from scipy.optimize import minimize
-from scipy.optimize import Bounds
-from scipy.optimize import LinearConstraint
-from scipy.optimize import NonlinearConstraint
-from scipy.optimize import BFGS
-from scipy.optimize import milp
+from dotenv import load_dotenv
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Load the .env file
+load_dotenv()
+
+# Access the environment variable
+api_key = os.getenv("OPENAI_API_KEY")
 
 # Show title and description.
 st.title(":teapot: Teapot.. ")
@@ -53,7 +45,7 @@ st.write(
 # Ask user for their OpenAI API key via `st.text_input`.
 # Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
 # via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-openai_api_key = st.text_input("OpenAI API Key", type="password")
+#openai_api_key = st.text_input("OpenAI API Key", type="password")
 
 # Define decision variables bounds
 bounds = generate_var_bounds(data.var_bounds)
@@ -67,7 +59,8 @@ x0 = initial_var_values(data.n_products)
 # Optimize problem
 res = optimize_problem(objective_function, x0, bounds, cons)
 
-# Print the results
+st.write(prompts.problem_description)
+# Display results
 st.write("Optimal solution:", res.x)
 st.write("Optimal value:", data.status_dict[str(res.status)])
 st.write("Optimal value:", round(-res.fun,2))

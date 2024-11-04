@@ -1,24 +1,26 @@
 
-description = """
-Problem: A manufacturing company produces two products: Product A and Product B. Each product requires specific amounts of two resources, Resource 1 and Resource 2, both of which have limited availability. The company aims to determine the optimal production quantities of each product to maximize total profit, while adhering to the resource constraints. Here are more details:
+problem_description = """
+Problem: \\
+A manufacturing company produces two products: Product A and Product B. Each product requires specific amounts of two resources, Resource 1 and Resource 2, both of which have limited availability. The company aims to determine the optimal production quantities of each product to maximize total profit, while adhering to the resource constraints. Here are more details:
 
-Product A:
-
+Product A:\\
 Profit per unit: $40
 Resource 1 required per unit: 2 units
 Resource 2 required per unit: 1 unit
-Product B:
 
+Product B:\\
 Profit per unit: $30
 Resource 1 required per unit: 1 unit
 Resource 2 required per unit: 2 units
-Resource Availability:
 
+Resource Availability:\\
 Resource 1: 100 units
 Resource 2: 80 units
+
 The objective is to determine the number of units of Product A and Product B to produce in order to maximize profit, without exceeding the available amounts of Resource 1 and Resource 2.
 """
 
+'''
 prompt = f"""
     Convert the following optimization problem statement into a mathematical linear program:
 
@@ -35,7 +37,7 @@ prompt = f"""
     **Non-negativity Constraints:** [List of non-negativity constraints on the variables]
     """
 
-parsing_prompt = (
+parsing_prompt_obj = (
     f"You are an optimization expert with a focus on mathematical and operational problems. Your task is to exract coefficients from a structured standard form of a linear program and store their values in JSON format. Make sure to name the parameters as instructed."
     f"Return all the parameters in a JSON format. Do not add the word 'json' to the data output.\n"
     f"Extract the decision variable coefficients from the objective function of following linear program {agent_response}."
@@ -48,7 +50,7 @@ parsing_prompt = (
     f"Make sure to extract as many coefficients as the number of decision variables. If there is no coefficient for the decision variable, assign it a zero value. \n"
 )
 
-parsing_prompt = (
+parsing_prompt_const = (
     f"You are an optimization expert with a focus on mathematical and operational problems. Your task is to exract coefficients from a structured standard form of a linear program and store their values in JSON format. Make sure to name the parameters as instructed."
     f"Return all the parameters in a JSON format. Do not add the word 'json' to the data output.\n"
     f"Extract the coefficients from the constraints of following linear program {agent_response}."
@@ -63,3 +65,5 @@ parsing_prompt = (
     f"Extract the coefficients of all other constraints following the same pattern."
     f"For each constraint, make sure to extract as many coefficients as the number of decision variables. If there is no coefficient for the decision variable, assign it a zero value. \n"
 )
+
+'''
